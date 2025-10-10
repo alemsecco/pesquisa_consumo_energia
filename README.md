@@ -20,5 +20,8 @@ Os dados utilizados neste projeto referem-se ao consumo mensal de energia elétr
 - **Link para os dados:** [https://www.epe.gov.br/pt/publicacoes-dados-abertos/dados-abertos/dados-do-consumo-mensal-de-energia-eletrica](https://www.epe.gov.br/pt/publicacoes-dados-abertos/dados-abertos/dados-do-consumo-mensal-de-energia-eletrica)
 - **Data de acesso:** 10/10/2025
 
+## 📊 Manipulação dos dados
+
+
 ## ✍️ Autores
 Copyright © 2025 Alex Menegatti Secco e Mariana de Castro
