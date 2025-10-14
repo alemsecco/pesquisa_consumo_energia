@@ -2,3 +2,9 @@ pandas>=1.0.0
 numpy>=1.18.0
 scikit-learn>=1.0.0
 joblib>=1.0.0
+
+
+pip install pandas
+pip install numpy
+pip install scikit-learn
+pip install joblib
