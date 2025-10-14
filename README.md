@@ -37,11 +37,11 @@ Os dados referentes à população brasileira foram retirados do Instituto Brasi
 - **Data de acesso:** 10/10/2025
 
 ## 📊 Manipulação dos dados
-Primeiramente, [filtramos](dados\manipulação\energia.py) os dados da EPE para obter somente os consumidores residenciais, que são o foco do projeto. Os dados filtrados estão disponíveis na tabela [Dados_residencial.csv](dados\consumo_energia\Dados_residencial.csv). Após isso, adicionamos mais uma coluna a essa tabela para termos os dados das estações do ano em que cada medida foi feita, para podermos analisar a influência da estação no consumo energético.
+Primeiramente, [filtramos](dados/manipulação/energia.py) os dados da EPE para obter somente os consumidores residenciais, que são o foco do projeto. Os dados filtrados estão disponíveis na tabela [Dados_residencial.csv](dados/consumo_energia/Dados_residencial.csv). Após isso, adicionamos mais uma coluna a essa tabela para termos os dados das estações do ano em que cada medida foi feita, para podermos analisar a influência da estação no consumo energético.
 
-O próximo passo foi [reunir todos os arquivos](dados\manipulação\unificacao-temp.py) proporcionados pelo INMET em uma única tabela, e [adicionamos as UFs e regiões](dados\manipulação\uf-e-regiao-temp.py) correspondentes para cada local. A tabela completa pode ser acessada por [aqui](dados\temperatura\temperatura_mensal_com_regiao_final.csv).
+O próximo passo foi [reunir todos os arquivos](dados/manipulação/unificacao-temp.py) proporcionados pelo INMET em uma única tabela, e [adicionamos as UFs e regiões](dados/manipulação/uf-e-regiao-temp.py) correspondentes para cada local. A tabela completa pode ser acessada por [aqui](dados/temperatura/temperatura_mensal_com_regiao_final.csv).
 
-Finalmente, cruzamos os dados das duas tabelas, gerando uma terceira tabela que indica o mês e ano, estação (verão, inverno, outono, primavera), região (Norte, Sul, Nordeste, Sudeste, Centro-Oeste), consumo de energia e os dados de temperatura, pressão, precipitação e vento. Esses dados estão disponíveis em [consumo_vs_temperatura_por_regiao](dados\consumo_vs_temperatura_por_regiao.csv).
+Finalmente, cruzamos os dados das duas tabelas, gerando uma terceira tabela que indica o mês e ano, estação (verão, inverno, outono, primavera), região (Norte, Sul, Nordeste, Sudeste, Centro-Oeste), consumo de energia e os dados de temperatura, pressão, precipitação e vento. Esses dados estão disponíveis em [consumo_vs_temperatura_por_regiao](dados/consumo_vs_temperatura_por_regiao.csv).
 
 ## ✍️ Autores
 Copyright © 2025 Alex Menegatti Secco e Mariana de Castro
