@@ -1,0 +1,32 @@
+Nome: FAINA
+Codigo Estacao: A007
+Latitude: -15.43333333
+Longitude: -50.36666666
+Altitude: 332
+Situacao: Desativada
+Data Inicial: 2004-01-01
+Data Final: 2005-08-15
+Periodicidade da Medicao: Mensal
+
+Data Medicao;NUMERO DE DIAS COM PRECIP. PLUV, MENSAL (AUT)(número);PRECIPITACAO TOTAL, MENSAL (AUT)(mm);PRESSAO ATMOSFERICA, MEDIA MENSAL (AUT)(mB);TEMPERATURA MEDIA, MENSAL (AUT)(°C);VENTO, VELOCIDADE MAXIMA MENSAL (AUT)(m/s);VENTO, VELOCIDADE MEDIA MENSAL (AUT)(m/s);
+2004-01-31;28;483,4;968,3;24,8;7,8;1,8;
+2004-02-29;26;561,8;970,7;24,7;6,4;1,8;
+2004-03-31;19;352;970,2;25,5;8,5;1,7;
+2004-04-30;15;98,6;971,1;25,5;7,2;1,7;
+2004-05-31;3;25,2;972,7;25;6,2;2,2;
+2004-06-30;0;0;975,2;23;6,6;2,2;
+2004-07-31;1;1,8;973,9;23,5;8,6;2,5;
+2004-08-31;0;0;973,8;25,4;8,2;2,6;
+2004-09-30;1;null;971,2;28,3;6,8;2,4;
+2004-10-31;null;null;null;null;null;null;
+2004-11-30;null;null;null;null;null;null;
+2004-12-31;null;null;null;null;null;null;
+2005-01-31;null;null;null;null;null;null;
+2005-02-28;null;null;null;null;null;null;
+2005-03-31;null;null;null;null;null;null;
+2005-04-30;null;null;null;null;null;null;
+2005-05-31;null;null;null;null;null;null;
+2005-06-30;null;null;null;null;null;null;
+2005-07-31;null;null;null;null;null;null;
+2005-08-31;null;null;null;null;null;null;
+

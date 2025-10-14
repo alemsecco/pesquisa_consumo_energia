@@ -21,6 +21,8 @@ Os dados utilizados neste projeto referem-se ao consumo mensal de energia elétr
 - **Data de acesso:** 10/10/2025
 
 ## 📊 Manipulação dos dados
+Primeiramente, filtramos os dados da EPE para obter somente os consumidores residenciais, que são o foco do projeto. Os dados filtrados estão disponíveis na tabela [Dados_residencial.csv](dados\consumo_energia\Dados_residencial.csv). Após isso, adicionamos mais uma coluna a essa tabela para termos os dados das estações do ano em que cada medida foi feita, para podermos analisar a influência da estação no consumo energético.
+
 
 
 ## ✍️ Autores

@@ -1,0 +1,17 @@
+Nome: CHARQUEADAS
+Codigo Estacao: B812
+Latitude: -29.96555555
+Longitude: -51.62555554
+Altitude: 23
+Situacao: Operante
+Data Inicial: 2025-04-30
+Data Final: 2025-08-01
+Periodicidade da Medicao: Mensal
+
+Data Medicao;PRECIPITACAO TOTAL, MENSAL (AUT)(mm);PRESSAO ATMOSFERICA, MEDIA MENSAL (AUT)(mB);TEMPERATURA MEDIA, MENSAL (AUT)(°C);VENTO, VELOCIDADE MAXIMA MENSAL (AUT)(m/s);VENTO, VELOCIDADE MEDIA MENSAL (AUT)(m/s);
+2025-04-30;null;null;null;null;null;null;
+2025-05-31;null;null;null;null;null;null;
+2025-06-30;null;null;null;null;null;null;
+2025-07-31;null;null;null;null;null;null;
+2025-08-31;null;null;null;null;null;null;
+
