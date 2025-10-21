@@ -1,13 +1,13 @@
 # 
 # 1. IMPORTAÇÕES E CONFIGURAÇÕES INICIAIS
 # 
-# Importo bibliotecas principais para manipulação de dados e ML
+# Import bibliotecas principais para manipulação de dados e ML
 import pandas as pd
 import numpy as np
 import warnings
 import os
 
-# Modelos de classificação e regressão exigidos pelo PjBL
+# Modelos de classificação e regressão 
 from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
@@ -96,7 +96,7 @@ def specificity_score(y_true, y_pred):
 
 def get_classification_metrics(y_true, y_pred):
     """Calcula as métricas da parte de classificação."""
-    # Retorna todas as colunas pedidas no PjBL (Tabela A e B)
+    # Retorna todas as colunas das Tabelas A e B
     return {
         'Taxa de Acerto (%)': accuracy_score(y_true, y_pred) * 100,
         'F1 (%)': f1_score(y_true, y_pred, average='macro') * 100,
@@ -107,7 +107,7 @@ def get_classification_metrics(y_true, y_pred):
 
 def get_regression_metrics(y_true, y_pred):
     """Calcula as métricas da parte de regressão."""
-    # Métricas pedidas nas Tabelas C e D
+    # Métricas das Tabelas C e D
     return {
         'Coeficiente de Determinação (R2)': r2_score(y_true, y_pred),
         'MSE': mean_squared_error(y_true, y_pred),
@@ -121,30 +121,23 @@ print("Funções auxiliares definidas.")
 # 3. PREPARAÇÃO DOS DADOS
 # 
 
-# Carrego os datasets .arff (devem ser diferentes dos usados em aula)
-# Single dataset: regression on 'Consumo'
+# Dataset único: regressão para 'Consumo'
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 data_path = os.path.join(base_dir, 'dados', 'consumo_vs_temperatura_por_regiao.csv')
 df = load_csv_to_df(data_path, sep=';')
 
-df_class = None  # not using classification here
 df_reg = df
-
-# --- Pré-processamento da Classificação ---
-if df_class is not None:
-    print(f"\nDataset de Classificação carregado: {df_class.shape[0]} linhas, {df_class.shape[1]} colunas")
-    # placeholder: not used in this runner
 
 # --- Pré-processamento da Regressão ---
 if df_reg is not None:
     print(f"Dataset de Regressão carregado: {df_reg.shape[0]} linhas, {df_reg.shape[1]} colunas")
-    # target in our CSV is 'Consumo'
+    # target = 'Consumo'
     target_reg = 'Consumo'
     if target_reg not in df_reg.columns:
         print(f"ERRO: coluna alvo '{target_reg}' não encontrada em {data_path}. Verifique o arquivo.")
         df_reg = None
     else:
-        # Basic feature engineering: extract Ano and Mes from MesAno if exists
+        # feature engineering básica: extrair Ano and Mes de MesAno se existe
         df_reg = df_reg.copy()
         if 'MesAno' in df_reg.columns:
             try:
@@ -153,28 +146,28 @@ if df_reg is not None:
             except Exception:
                 pass
 
-            # Clean target 'Consumo': remove thousands separator and convert decimal comma
+            # limpar target 'Consumo': remove separador de milhar e converte virgula decimal
             df_reg[target_reg] = df_reg[target_reg].astype(str).str.replace('.', '', regex=False).str.replace(',', '.', regex=False)
             y_reg = pd.to_numeric(df_reg[target_reg], errors='coerce')
-            # Drop rows where target is NaN
+            # Drop linhas onde target é NaN
             n_before = len(df_reg)
             mask = y_reg.notna()
             df_reg = df_reg.loc[mask].reset_index(drop=True)
             y_reg = y_reg.loc[mask].reset_index(drop=True)
             n_after = len(df_reg)
             print(f"Linhas com target válido: {n_after} (removidas {n_before - n_after} linhas com target inválido)")
-        # choose feature columns: numeric measurements + Ano, Mes, Regiao
+        # escolhe colunas de features: medições numéricas + Ano, Mes, Regiao
         candidate_cols = list(df_reg.columns)
-        # drop target and MesAno
+        # drop target e MesAno
         for c in [target_reg, 'MesAno']:
             if c in candidate_cols:
                 candidate_cols.remove(c)
 
-        # keep a sensible set: Ano, Mes, Regiao, and numeric measurement columns
+        # mantém um conjunto sensato: Ano, Mes, Regiao, e colunas numéricas de medição
         keep = [c for c in candidate_cols if c in ('Ano', 'Mes', 'Regiao') or df_reg[c].dtype in (float, int) or df_reg[c].dtype == 'object']
         X_reg = df_reg[keep].copy()
 
-        # Preprocessor: numeric imputer+scaler + onehot for Regiao
+        # pré-processador: numérico imputer+scaler + onehot para Regiao
         numeric_cols = [c for c in X_reg.columns if c not in ('Regiao',) and pd.api.types.is_numeric_dtype(X_reg[c])]
         categorical_cols = [c for c in X_reg.columns if c == 'Regiao' or not pd.api.types.is_numeric_dtype(X_reg[c])]
 
@@ -188,7 +181,7 @@ if df_reg is not None:
 # 4. DEFINIÇÃO DOS MODELOS
 # 
 
-# Aqui defino todos os algoritmos exigidos nas tabelas do PjBL
+# Aqui defino todos os algoritmos que serão testados
 # A ideia é facilitar a execução automática de todos eles
 
 # --- Modelos de Classificação ---
@@ -234,7 +227,7 @@ print("Modelos definidos.")
 # 5. EXECUÇÃO DOS EXPERIMENTOS
 # 
 
-# Aqui são geradas as 4 tabelas pedidas no PDF (A, B, C e D)
+# Aqui são geradas as 4 tabelas 
 # Cada bloco executa todos os modelos e armazena as métricas
 
 if df_class is not None:
@@ -247,7 +240,7 @@ if df_class is not None:
         pipeline = Pipeline(steps=[('preprocessor', preprocessor_class), ('classifier', model)])
         pipeline.fit(X_train, y_train)
         y_pred = pipeline.predict(X_test)
-        # Calculo as métricas pedidas no PjBL
+        # Calculo as métricas 
         metrics = get_classification_metrics(y_test, y_pred)
         metrics['Indutor'] = name
         results_A.append(metrics)
@@ -278,9 +271,9 @@ if df_class is not None:
         })
         print(f"  - {name}: Concluído")
     df_results_B = pd.DataFrame(results_B)[['Indutor', 'Taxa de Acerto (%)', 'F1 (%)', 'Precisão (%)', 'Sensibilidade (%)', 'Especificidade (%)']]
-        # (end of script)
+        # (fim do script)
 if df_reg is not None:
-    # Use TimeSeriesSplit for temporal cross-validation
+    # uso de TimeSeriesSplit pra cross-validation temporal
     print("\n--- Avaliando modelos de regressão com TimeSeriesSplit (5 folds) ---")
     results = []
     tss = TimeSeriesSplit(n_splits=5)
@@ -310,7 +303,7 @@ if df_reg is not None:
 # 
 
 # Exibo todas as tabelas no formato exigido pelo enunciado
-# Comentário rápido: essas saídas correspondem às quatro tabelas pedidas no PDF
+# Comentário rápido: essas saídas correspondem às quatro tabelas
 
 pd.set_option('display.float_format', lambda x: '%.3f' % x)
 print("\n\n" + "="*80)
