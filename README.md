@@ -22,14 +22,14 @@ Os dados utilizados neste projeto referem-se ao consumo mensal de energia elétr
 - **Data de acesso:** 10/10/2025
 
 ### 🌡️ Temperatura
-Para obter dados mensais de temperatura, pressão atmosférica, velocidade do vento e precipitação, utilizamos os dados do Instituro Nacional de Meteorlogia (INMET), via solicitação por e-mail de dados de 2004 a 2025.
+Para obter dados mensais de temperatura, pressão atmosférica, velocidade do vento e precipitação, utilizamos os dados do Instituto Nacional de Meteorologia (INMET), via solicitação por e-mail de dados de 2004 a 2025.
 
 - **Fonte:** Instituto Nacional de Meteorologia (INMET)
 - **Link para solicitação de dados:** [https://bdmep.inmet.gov.br/](https://bdmep.inmet.gov.br/)
 - **Data de acesso:** 10/10/2025
 
 ### 👥 População
-Os dados referentes à população brasileira foram retirados do Instituto Brasileiro de Geografia e Estatística (IBGE). Os dados sobre a população atual referem-se ao Censo de 2022, enquanto os dados de crescimento populacional foram retirados do panorama do Censo.
+Os dados referentes à população brasileira foram retirados do Instituto Brasileiro de Geografia e Estatística (IBGE). Os dados sobre a população atual correspondem ao Censo de 2022, enquanto os dados de crescimento populacional foram retirados do panorama do Censo.
 
 - **Fonte:** Instituto Brasileiro de Geografia e Estatística (IBGE)
 - **Link para dados dos censos:** [https://www.ibge.gov.br/estatisticas/sociais/saude/22827-censo-demografico-2022.html?=&t=downloads](https://www.ibge.gov.br/estatisticas/sociais/saude/22827-censo-demografico-2022.html?=&t=downloads)
