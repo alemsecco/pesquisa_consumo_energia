@@ -127,6 +127,7 @@ data_path = os.path.join(base_dir, 'dados', 'consumo_vs_temperatura_por_regiao.c
 df = load_csv_to_df(data_path, sep=';')
 
 df_reg = df
+df_class = None  # não há dataset de classificação neste caso
 
 # --- Pré-processamento da Regressão ---
 if df_reg is not None:

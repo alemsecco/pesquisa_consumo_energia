@@ -1,0 +1,6 @@
+Regiao;n;mae;rmse;r2;model_path
+Centro-Oeste;260;99577,47396978449;134121,72498906357;0,1364533603007706;c:\Users\alems\Documents\pesquisa\energia_consumo\treino_modelo\modelo\rfr_region_Centro-Oeste.joblib
+Norte;260;159249,79730770152;192003,14428923395;-1,222606276728703;c:\Users\alems\Documents\pesquisa\energia_consumo\treino_modelo\modelo\rfr_region_Norte.joblib
+Nordeste;260;184607,604807682;231615,42511108433;-0,0082810587157911;c:\Users\alems\Documents\pesquisa\energia_consumo\treino_modelo\modelo\rfr_region_Nordeste.joblib
+Sul;260;235165,1669871767;317929,8431425713;-0,20024335075740352;c:\Users\alems\Documents\pesquisa\energia_consumo\treino_modelo\modelo\rfr_region_Sul.joblib
+Sudeste;260;581774,5831730396;719368,5725063832;-0,706581676986253;c:\Users\alems\Documents\pesquisa\energia_consumo\treino_modelo\modelo\rfr_region_Sudeste.joblib
