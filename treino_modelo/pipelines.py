@@ -8,16 +8,16 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import OneHotEncoder
 
 def build_tree_pipeline(preprocessor):
-    """Return a pipeline suitable for tree-based models (keeps numeric imputer, no scaler)."""
-    # reuse numeric and categorical columns from preprocessor if available
+    """Retorna uma pipeline adequada pra modelos baseados em árvores (Random Forest). mantém imput numérico, sem escalonador."""
+    # reusa colunas numéricas e categóricas do pré-processador, se disponível
     try:
         num_cols = preprocessor.transformers[0][2]
         cat_cols = preprocessor.transformers[1][2]
     except Exception:
-        # fallback empty lists
+        # fallback listas vazias
         num_cols, cat_cols = [], []
 
-    # numeric transformer: median imputation (use existing)
+    # transformer numérico: imputação pela mediana (usa existente)
     numeric_transformer = Pipeline(steps=[('imputer', SimpleImputer(strategy='median'))])
     categorical_transformer = Pipeline(steps=[('imputer', SimpleImputer(strategy='most_frequent')), ('onehot', OneHotEncoder(handle_unknown='ignore'))])
 
@@ -28,9 +28,8 @@ def build_tree_pipeline(preprocessor):
 
 
 def build_sensitive_pipeline(preprocessor, scaler='standard', use_power=False):
-    """Return a pipeline for models sensitive to scaling (MLP, KNN).
-    scaler: 'standard' or 'robust'
-    use_power: if True apply PowerTransformer (Yeo-Johnson) to numeric features
+    """ Retorna uma pipeline pra modelos sensíveis a escalonamento (MLP, KNN). escalonador: standard ou robusto.
+    use_power: se True aplica PowerTransformer (Yeo-Johnson) às features numéricas
     """
     try:
         num_cols = preprocessor.transformers[0][2]

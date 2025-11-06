@@ -10,7 +10,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 import joblib
 
-# Constants
+# Constantes de caminho
 BASE = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 DATA_PATH = os.path.join(BASE, 'dados', 'consumo_vs_temperatura_por_regiao.csv')
 MODEL_DIR = os.path.join(BASE, 'treino_modelo', 'modelo')
@@ -23,10 +23,10 @@ def load_data(path=DATA_PATH):
 
 
 def clean_numeric(s):
-    """Clean numeric strings with . thousands and , decimal."""
+    """ limpa strings numéricas com . milhares e , decimal."""
     if pd.api.types.is_numeric_dtype(s):
         return pd.to_numeric(s, errors='coerce')
-    # handle string columns with . thousands and , decimal
+    # lida com colunas de string com . milhares e , decimal
     return pd.to_numeric(
         s.astype(str)
         .str.replace('\xa0', '', regex=False)
@@ -39,11 +39,11 @@ def clean_numeric(s):
 
 def add_lag_features(df: pd.DataFrame):
     df = df.copy()
-    # convert MesAno to datetime for sorting
+    # converte MesAno para datetime para ordenação
     df['MesAno_dt'] = pd.to_datetime(df['MesAno'] + '-01', errors='coerce')
     df = df.sort_values(['Regiao', 'MesAno_dt'])
     
-    # Create lag features by region
+    # cria laf features por região
     df['lag1'] = df.groupby('Regiao')['Consumo'].shift(1)
     df['lag12'] = df.groupby('Regiao')['Consumo'].shift(12)
     df['roll3'] = df.groupby('Regiao')['Consumo'].shift(1).rolling(window=3, min_periods=1).mean().reset_index(level=0, drop=True)
@@ -52,11 +52,11 @@ def add_lag_features(df: pd.DataFrame):
 
 
 def recommend_sustainable(df_row: pd.Series):
-    """Simple rule-based recommender:
-    - If região Norte or Nordeste and alta precipitação média -> hidrelétrica/biomassa maybe viable
-    - If temperatura média alta and muita irradiação esperada (proxy: baixa precipitação) -> solar
-    - If vento médio alto -> eólica
-    This is a heuristic placeholder; can be improved with cost/insolation/wind maps."""
+    """ recomendações sustentáveis simples baseado em regras:
+    - Se região norte ou norteste E alta precipitação média -> hidrelétrica/biomassa pode ser viável
+    - Se temperatura média alta E muita irradiação esperada (proxy: baixa precipitação) -> solar
+    - Se vento médio alto -> eólica
+    É uma heurística simples; pode ser melhorada com mapas de custo/insolação/vento."""
     recs = []
     reg = str(df_row.get('Regiao', '')).lower()
     precip = float(df_row.get('PRECIPITACAO TOTAL, MENSAL (AUT)(mm)') or 0)
@@ -79,7 +79,7 @@ def train_model():
     df = load_data()
     print('Rows:', len(df))
     
-    # Clean numeric columns
+    # limpa colunas numéricas
     df['Consumo'] = clean_numeric(df['Consumo'])
     num_cols = ['PRECIPITACAO TOTAL, MENSAL (AUT)(mm)', 
                 'PRESSAO ATMOSFERICA, MEDIA MENSAL (AUT)(mB)',
@@ -90,21 +90,21 @@ def train_model():
         if col in df.columns:
             df[col] = clean_numeric(df[col])
     
-    # Add lag features
+    # add lag features
     df = add_lag_features(df)
     
-    # Extract year/month
+    # extrai ano/mes
     df['MesAno'] = df['MesAno'].astype(str)
     df['Ano'] = df['MesAno'].str.slice(0,4).astype(int)
     df['Mes'] = df['MesAno'].str.slice(5,7).astype(int)
     
-    # Define features for model
+    # define features para modelo
     numeric_features = ['Ano', 'Mes', 'lag1', 'lag12', 'roll3'] + [
         c for c in num_cols if c in df.columns
     ]
     categorical_features = ['Regiao']
     
-    # Build preprocessor
+    # constrói preprocessador
     numeric_transformer = Pipeline(steps=[
         ('imputer', SimpleImputer(strategy='median')),
         ('scaler', StandardScaler()),
@@ -123,7 +123,7 @@ def train_model():
         ]
     )
     
-    # Build model pipeline
+    # constrói pipeline do modelo
     model = RandomForestRegressor(
         n_estimators=200,
         max_depth=40,
@@ -138,12 +138,12 @@ def train_model():
         ('regressor', model)
     ])
     
-    # Train/test split by time
+    # Treino/teste dividido por tempo
     df = df.sort_values('MesAno_dt')
     train_idx = df.index[:int(len(df)*0.8)]
     test_idx = df.index[int(len(df)*0.8):]
     
-    # Prepare X,y
+    # Prepara X,y
     feature_cols = numeric_features + categorical_features
     X = df[feature_cols]
     y = df['Consumo']
@@ -153,11 +153,11 @@ def train_model():
     X_test = X.loc[test_idx]
     y_test = y.loc[test_idx]
     
-    # Train model
+    # Treina modelo
     print('Training model...')
     pipe.fit(X_train, y_train)
     
-    # Evaluate
+    # avalia
     preds = pipe.predict(X_test)
     mae = mean_absolute_error(y_test, preds)
     rmse = np.sqrt(mean_squared_error(y_test, preds))
@@ -167,22 +167,22 @@ def train_model():
     print(f'Test RMSE: {rmse:,.2f}')
     print(f'Test R²: {r2:.4f}')
     
-    # Save model
+    # salva modelo
     model_path = os.path.join(MODEL_DIR, 'model.joblib')
     joblib.dump(pipe, model_path)
     print(f'Model saved to {model_path}')
     
-    # Generate recommendations for sample
+    # gera recomendações para amostra
     print('\nGenerating recommendations sample...')
     df['Recomendacao'] = df.apply(recommend_sustainable, axis=1)
     
-    # Save recommendations sample
+    # salva recomendações
     sample_cols = ['MesAno', 'Regiao', 'Consumo'] + num_cols + ['Recomendacao']
     sample_path = os.path.join(MODEL_DIR, 'recomendacoes_amostra.csv')
     df[sample_cols].head(200).to_csv(sample_path, index=False, sep=';', decimal=',')
     print(f'Recommendations sample saved to {sample_path}')
     
-    # Save test predictions
+    # salva previsões do teste
     df.loc[test_idx, 'Pred_Consumo'] = preds
     predictions_path = os.path.join(MODEL_DIR, 'predictions.csv')
     df.loc[test_idx, ['MesAno', 'Regiao', 'Consumo', 'Pred_Consumo']].to_csv(
